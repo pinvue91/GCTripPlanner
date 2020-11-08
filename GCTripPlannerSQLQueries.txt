@@ -1,0 +1,77 @@
+--SQL Queries for GC Trip Planner 
+
+--Creating Tables
+
+CREATE TABLE [User](
+	UserID INT NOT NULL PRIMARY KEY,
+	UserName NVARCHAR(40) NOT NULL,
+	DOB DATE NOT NULL,
+	UserPhoneNumber NVARCHAR(15),
+	UserStreetAddress NVARCHAR(25),
+	UserCity NVARCHAR(15),
+	UserState NVARCHAR(15),
+	UserZip NVARCHAR(5)
+	);
+
+CREATE TABLE Passport(
+	PassportID INT NOT NULL PRIMARY KEY,
+	[Name] NVARCHAR(40) NOT NULL,
+	DOB DATE NOT NULL,
+	PhoneNumber NVARCHAR(15),
+	StreetAddress NVARCHAR(25),
+	City NVARCHAR(15),
+	State NVARCHAR(15),
+	Zip NVARCHAR(5)
+	);
+
+CREATE TABLE Trip(
+	TripID INT NOT NULL PRIMARY KEY,
+	StartDestination NVARCHAR(40) NOT NULL,
+	EndDestination NVARCHAR(40) NOT NULL,
+	StartDate DATE NOT NULL,
+	EndDate DATE NOT NULL,
+	TravelMode NVARCHAR(15),
+	Budget INT NOT NULL
+	);
+
+CREATE TABLE Hotel(
+	BookingID INT NOT NULL PRIMARY KEY,
+	CustomerName NVARCHAR(40) NOT NULL,
+	CustomerPhoneNumber NVARCHAR(15),
+	HotelName NVARCHAR(40) NOT NULL,
+	CheckInDate DATE NOT NULL,
+	CheckOutDate DATE NOT NULL,
+	HotelStreetAddress NVARCHAR(15),
+	HotelCity NVARCHAR(15),
+	HotelState NVARCHAR(15),
+	HotelZip NVARCHAR(5),
+	CostPerNight INT NOT NULL
+	);
+
+CREATE TABLE UserHotel(
+	UserHotelID INT NOT NULL PRIMARY KEY,
+	);
+
+--Adding Foreign Keys to Tables
+
+ALTER TABLE UserHotel
+ADD UserID INT FOREIGN KEY REFERENCES [User](UserID);
+
+ALTER TABLE UserHotel
+ADD BookingID INT FOREIGN KEY REFERENCES Hotel(BookingID);
+
+ALTER TABLE Hotel
+ADD UserHotelID INT FOREIGN KEY REFERENCES UserHotel(UserHotelID);
+
+ALTER TABLE User
+ADD UserHotelID INT FOREIGN KEY REFERENCES UserHotel(UserHotelID);
+
+ALTER TABLE [User]
+ADD PassportID INT FOREIGN KEY REFERENCES Passport(PassportID);
+
+ALTER TABLE [User]
+ADD TripID INT FOREIGN KEY REFERENCES Trip(TripID);
+
+ALTER TABLE Passport
+ADD UserID INT FOREIGN KEY REFERENCES [User](UserID);
+
